@@ -1,7 +1,7 @@
 const todoContainer = document.querySelector('.todo__container__list');
 const doneContainer = document.querySelector('.done__container__list');
 const arrayAllTasks = [];
-const arrayNewTasks = [];
+let arrayNewTasks = [];
 
 // todoContainer.appendChild(arrayTasks[2][1]);
 // if(sessionStorage.getItem('tasks') !== null){
@@ -9,10 +9,10 @@ const arrayNewTasks = [];
 //     updateDOMStats(storedTasks);
 // }
 if (localStorage.getItem('newtasks') !== null) {
-    const storedTasks = JSON.parse(localStorage.getItem('newtasks'));
-    arrayAllTasks.push([arrayNewTasks]);
+    arrayNewTasks  = JSON.parse(localStorage.getItem('newtasks'));
+    arrayAllTasks.push(arrayNewTasks);
     localStorage.setItem('tasks', JSON.stringify(arrayAllTasks));
-    checktasks(storedTasks);
+    checktasks(arrayNewTasks);
 }
 function checktasks(arr) {
     arr.forEach(v=>{
