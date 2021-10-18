@@ -11,12 +11,20 @@
 }
 .input__container{ 
     width: 50%;
+    height: 30em;
 }
 
 .todo__container, .done__container{
 width: 25%;
+height: 30em;
 }
 
+.todo__container{
+    background-color: rgba(148, 148, 140, 0.712);
+}
+.done__container{
+    background-color: rgba(187, 238, 145, 0.795);
+}
 .form__container{
     display: flex;
     flex-direction: column;
