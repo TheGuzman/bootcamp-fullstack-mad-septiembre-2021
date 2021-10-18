@@ -1,7 +1,7 @@
 const todoContainer = document.querySelector('.todo__container__list');
 const doneContainer = document.querySelector('.done__container__list');
 const arrayAllTasks = [];
-let arrayNewTasks = [];
+let NewTasks = [];
 
 // todoContainer.appendChild(arrayTasks[2][1]);
 // if(sessionStorage.getItem('tasks') !== null){
@@ -9,19 +9,18 @@ let arrayNewTasks = [];
 //     updateDOMStats(storedTasks);
 // }
 if (localStorage.getItem('newtasks') !== null) {
-    arrayNewTasks  = JSON.parse(localStorage.getItem('newtasks'));
-    arrayAllTasks.push(arrayNewTasks);
+    NewTasks = JSON.parse(localStorage.getItem('newtasks'));
+    arrayAllTasks.push(NewTasks);
     localStorage.setItem('tasks', JSON.stringify(arrayAllTasks));
-    checktasks(arrayNewTasks);
+    checktasks(NewTasks);
 }
 function checktasks(arr) {
-    arr.forEach(v=>{
-        const prevTask = document.createElement('li');
-        prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arrayAllTasks[v]));
+    const prevTask = document.createElement('li');
+    for (let i = 0; i < arr.length; i++) {
+        prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arr[i]));
         todoContainer.appendChild(prevTask);
-    })
+    }
 }
-
 
 document.querySelector('.form__container').addEventListener('submit', e => {
     e.preventDefault();
@@ -36,8 +35,8 @@ document.querySelector('.form__container').addEventListener('submit', e => {
     newTask.textContent = inputTaskName.value + ':' + ' ' + inputTaskDescription.value;
     todoContainer.appendChild(newTask);
     newTask.insertAdjacentElement('beforeend', taskDoneChecker);
-    arrayNewTasks.push([inputTaskName.value, inputTaskDescription.value, false]);
-    localStorage.setItem('newtasks', JSON.stringify(arrayNewTasks));
+    NewTasks.push({ task: inputTaskName.value, description: inputTaskDescription.value, done: false });
+    localStorage.setItem('newtasks', JSON.stringify(NewTasks));
     formElement.task.value = '';
     formElement.description.value = '';
 })
@@ -45,7 +44,11 @@ document.querySelector('.form__container').addEventListener('submit', e => {
 
 
 
-
+// arr.forEach(v=>{
+//     const prevTask = document.createElement('li');
+//     prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arrayAllTasks[v]));
+//     todoContainer.appendChild(prevTask);
+// })
 
 
 // function checktasks(arr){
