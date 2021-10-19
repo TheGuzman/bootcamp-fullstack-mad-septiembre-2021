@@ -1,12 +1,9 @@
 const todoContainer = document.querySelector('.todo__container__list');
 const doneContainer = document.querySelector('.done__container__list');
+const taskDoneChecker = document.createElement('input');//Added checkbox
+taskDoneChecker.type = 'checkbox'; //added type of checkbox
 let NewTasks = [];
 
-// todoContainer.appendChild(arrayTasks[2][1]);
-// if(sessionStorage.getItem('tasks') !== null){
-//     const storedTasks = JSON.parse(sessionStorage.getItem('tasks'));
-//     updateDOMStats(storedTasks);
-// }
 if (localStorage.getItem('newtasks') !== null) {
     NewTasks = JSON.parse(localStorage.getItem('newtasks'));
     checktasks(NewTasks);
@@ -14,20 +11,15 @@ if (localStorage.getItem('newtasks') !== null) {
 function checktasks(arr) {
     for (let i = 0; i < arr.length; i++) {
         const prevTask = document.createElement('li');
-        prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arr[i]));
-        console.log(JSON.stringify(arr[i]));
-        todoContainer.appendChild(prevTask);
+        prevTask.classList.add('li__task');
+        const objPrevTask = arr[i];//object at index [i] in the newTasks array
+        const arrPrevTask = Object.values(objPrevTask); //object at [i] to array for better printing
+        arrPrevTask.splice(2, 1);
+        prevTask.innerHTML = arrPrevTask;
+        prevTask.insertAdjacentElement('beforeend', taskDoneChecker);
+        todoContainer.appendChild(prevTask);   
     }
 }
-
-// function checktasks(arr) {
-//     for (let i = 0; i < arr.length; i++) {
-//         const prevTask = document.createElement('li');
-//         prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arr[i]));
-//         console.log(JSON.stringify(arr[i]));
-//         todoContainer.appendChild(prevTask);
-//     }
-// }
 
 document.querySelector('.form__container').addEventListener('submit', e => {
     e.preventDefault();
@@ -36,34 +28,18 @@ document.querySelector('.form__container').addEventListener('submit', e => {
     inputTaskName.value = formElement.task.value;
     const inputTaskDescription = document.createElement('p');//Added task description
     inputTaskDescription.value = formElement.description.value;
-    const taskDoneChecker = document.createElement('input');//Added checkbox
-    taskDoneChecker.type = 'checkbox'; //added type of checkbox
+    // const taskDoneChecker = document.createElement('input');//Added checkbox
+    // taskDoneChecker.type = 'checkbox'; //added type of checkbox
     const newTask = document.createElement('li'); //Added list
     newTask.textContent = inputTaskName.value + ':' + ' ' + inputTaskDescription.value;
     todoContainer.appendChild(newTask);
     newTask.insertAdjacentElement('beforeend', taskDoneChecker);
-    NewTasks.push({ task: inputTaskName.value, description: inputTaskDescription.value, done: false });
+    NewTasks.push({ 0: inputTaskName.value, 1: inputTaskDescription.value, 2: false });
     localStorage.setItem('newtasks', JSON.stringify(NewTasks));
     formElement.task.value = '';
     formElement.description.value = '';
 })
 
-
-
-
-// arr.forEach(v=>{
-//     const prevTask = document.createElement('li');
-//     prevTask.textContent = localStorage.getItem('newtasks', JSON.stringify(arrayAllTasks[v]));
-//     todoContainer.appendChild(prevTask);
-// })
-
-
-// function checktasks(arr){
-//     for (let i =0; i<arr.length; i++){
-//         for(let j=0; j<arr[i].length; j++){
-//         }
-//     }
-//     }
 
 
 
