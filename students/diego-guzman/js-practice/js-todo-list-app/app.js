@@ -9,15 +9,15 @@ if (localStorage.getItem('newtasks') !== null) {
     checktasks(NewTasks);
 }
 function checktasks(arr) {
-    for (let i = 0; i < arr.length; i++) {
-        const prevTask = document.createElement('li');
-        prevTask.classList.add('li__task');
-        const objPrevTask = arr[i];//object at index [i] in the newTasks array
-        const arrPrevTask = Object.values(objPrevTask); //object at [i] to array for better printing
-        arrPrevTask.splice(2, 1);
-        prevTask.innerHTML = arrPrevTask;
-        prevTask.insertAdjacentElement('beforeend', taskDoneChecker);
-        todoContainer.appendChild(prevTask);   
+    for (let i = 0; i < arr.length; i++) { //arr.name, arr.description, arr.
+        // const prevTask = document.createElement('li');
+        // prevTask.classList.add('li__task');
+        // const objPrevTask = arr[i];//object at index [i] in the newTasks array
+        // const arrPrevTask = Object.values(objPrevTask); //object at [i] to array for better printing
+        // arrPrevTask.splice(2, 1);
+        // prevTask.innerHTML = arrPrevTask;
+        // prevTask.insertAdjacentElement('beforeend', taskDoneChecker);
+        // todoContainer.appendChild(prevTask);   
     }
 }
 
