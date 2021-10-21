@@ -49,6 +49,10 @@ async function getAllPokemon(url) {
 
 }
 
+// function getThePokemon(name){
+//     if(){}
+// }
+
 fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder utilizar d.results //listPokemon es igual a d.results
     listPokemon.forEach(e => {
         const pokeName = e.name;
@@ -56,6 +60,7 @@ fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder 
         getAllPokemon(pokeUrl).then(infoIndPokemon => {//infoIndPokemon es igual a d de getAllPokemon
             const pPokemonContainer = document.createElement('div');
             pPokemonContainer.classList.add('pokemon__container');
+            pPokemonContainer.classList.add(`${infoIndPokemon.name}__name`);
             const pName = document.createElement('p');
             pName.textContent = infoIndPokemon.name;
             pName.classList.add(`${infoIndPokemon.name}__name`);
@@ -65,21 +70,36 @@ fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder 
             imgPokemon.classList.add(`${infoIndPokemon.name}__img`);
             imgPokemon.classList.add('pokemon__img');
             const idPokemon = document.createElement('p');
-            idPokemon.textContent=infoIndPokemon.id;
+            idPokemon.textContent = infoIndPokemon.id;
             idPokemon.classList.add(`${infoIndPokemon.name}__id`);
             idPokemon.classList.add('pokemon__id');
             pPokemonContainer.appendChild(imgPokemon);
             pPokemonContainer.appendChild(pName);
             pPokemonContainer.appendChild(idPokemon);
-            infoIndPokemon.types.forEach(e=>{
+            infoIndPokemon.types.forEach(e => {
                 const typePokemon = document.createElement('p');
                 typePokemon.classList.add(`${infoIndPokemon.name}__type`);
                 typePokemon.classList.add('pokemon__type');
                 typePokemon.textContent = e.type.name;
                 pPokemonContainer.appendChild(typePokemon);
             })
-            document.body.appendChild(pPokemonContainer);
+            const pokedexContainer = document.querySelector('.pokedex__container');
+            pokedexContainer.appendChild(pPokemonContainer);
         })
     })
 })
 
+const searchForm = document.querySelector('.search__input');
+searchForm.addEventListener('keyup', (e) => {
+    e.preventDefault();
+    const inputPokemon = e.target.value;
+   getThePokemon(inputPokemon);
+})
+
+// fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder utilizar d.results //listPokemon es igual a d.results
+//     listPokemon.forEach(e => {
+//         const pokeName = e.name;
+//         const pokeUrl = e.url;
+//         getAllPokemon(pokeUrl).then(infoIndPokemon => { })
+//     })
+// })
