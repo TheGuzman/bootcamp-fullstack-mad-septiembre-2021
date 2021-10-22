@@ -96,6 +96,7 @@ const searchForm = document.querySelector('.search__input');
 searchForm.addEventListener('keyup', (e) => {
     e.preventDefault();
     const inputPokemon = e.target.value;
+    console.log(inputPokemon)
     // getThePokemon(inputPokemon);
 })
 
