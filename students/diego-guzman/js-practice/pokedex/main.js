@@ -61,7 +61,7 @@ fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder 
             const pPokemonContainer = document.createElement('div');
             pPokemonContainer.classList.add('pokemon__container');
             pPokemonContainer.classList.add(`${infoIndPokemon.name}__name`);
-            const pName = document.createElement('p');
+            const pName = document.createElement('h2');
             pName.textContent = infoIndPokemon.name;
             pName.classList.add(`${infoIndPokemon.name}__name`);
             pName.classList.add('pokemon__name');
@@ -73,16 +73,19 @@ fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder 
             idPokemon.textContent = infoIndPokemon.id;
             idPokemon.classList.add(`${infoIndPokemon.name}__id`);
             idPokemon.classList.add('pokemon__id');
+            const typePokemonContainer = document.createElement('ul');
+            typePokemonContainer.classList.add(`${infoIndPokemon.name}__type__container`);
             pPokemonContainer.appendChild(imgPokemon);
             pPokemonContainer.appendChild(pName);
             pPokemonContainer.appendChild(idPokemon);
             infoIndPokemon.types.forEach(e => {
-                const typePokemon = document.createElement('p');
+                const typePokemon = document.createElement('li');
                 typePokemon.classList.add(`${infoIndPokemon.name}__type`);
                 typePokemon.classList.add('pokemon__type');
                 typePokemon.textContent = e.type.name;
-                pPokemonContainer.appendChild(typePokemon);
+                typePokemonContainer.appendChild(typePokemon);
             })
+            pPokemonContainer.appendChild(typePokemonContainer);
             const pokedexContainer = document.querySelector('.pokedex__container');
             pokedexContainer.appendChild(pPokemonContainer);
         })
@@ -93,7 +96,7 @@ const searchForm = document.querySelector('.search__input');
 searchForm.addEventListener('keyup', (e) => {
     e.preventDefault();
     const inputPokemon = e.target.value;
-   getThePokemon(inputPokemon);
+    // getThePokemon(inputPokemon);
 })
 
 // fetchListPokemon().then(listPokemon => { //hay que trabajar con then para poder utilizar d.results //listPokemon es igual a d.results

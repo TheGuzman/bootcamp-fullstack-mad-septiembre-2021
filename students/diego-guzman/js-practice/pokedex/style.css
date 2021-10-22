@@ -52,4 +52,5 @@ body{
 }
 .pokemon__type{
     margin-top: 0.5em;
+    list-style-type: none;
 }
