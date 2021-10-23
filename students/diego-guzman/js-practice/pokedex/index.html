@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,16 +8,20 @@
     <title>Pokedex</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div class="header__img">
         <img src="/assets/imgs/pokedeex.png">
     </div>
     <form class="form__container">
-        <input type="text" name="input" class="search__input">
-        <button type="submit" class="search__button">Search</button>
+        <input type="text" name="limit" class="limit__input" placeholder="numner of pokemons you want">
+        <input type="text" name="offset" class="offset__input" placeholder="type the offset">
+        <button class="submit__button" type="submit">Send</button>
     </form>
+    <input type="text" name="input" class="search__input" placeholder="type your pokemon">
     <div class="pokedex__container">
     </div>
     <script src="main.js"></script>
 </body>
+
 </html>
