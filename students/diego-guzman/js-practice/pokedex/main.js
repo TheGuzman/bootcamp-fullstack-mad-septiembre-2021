@@ -61,9 +61,6 @@ function undrawPokemonList() {
     pokedexContainer.innerHTML = '';
 }
 
-let limit = parseInt(prompt('enter a number'));
-let offset = parseInt(prompt('enter a number'));
-
 async function retrievePokemonList(limit=151, offset=0) {
     const r = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
     const pokemonList = await r.json();
