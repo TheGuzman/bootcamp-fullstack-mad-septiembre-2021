@@ -1,4 +1,5 @@
 const pokedexContainer = document.querySelector('.pokedex__container');
+const limitOffsetDOM = document.querySelector('.form__container');
 let originalPokemonList = [];
 
 function generatePokemonTypeListDOM(types) {
@@ -18,23 +19,63 @@ function drawPokemon(pokemon) {
 
     const pokemonContainerDOM = document.createElement('div');
     pokemonContainerDOM.classList.add('pokemon-card__container'); //General class
-    pokemonContainerDOM.classList.add(`${pokemon.name}-card`); //pokemon-specific class
+    pokemonContainerDOM.setAttribute('data-name', pokemon.name); //pokemon-specific class
+    pokemonContainerDOM.addEventListener('click', e => {
+        //creation of clone card
+        const cardDOM = document.querySelector(`[data-name="${pokemon.name}"]`);
+        //Create a deep clone of selected card
+        const cardDOMCopy = cardDOM.cloneNode(true);
+        pokedexContainer.style = 'display:none;'
+        document.body.appendChild(cardDOMCopy);
+
+        //added back button
+        const buttonBack = document.createElement('button');
+        buttonBack.textContent = 'back';
+        buttonBack.classList.add('button__back');
+        cardDOMCopy.insertAdjacentElement('beforebegin',buttonBack);
+
+        //event listener back button
+        buttonBack.addEventListener('click', () => {
+            pokedexContainer.style = 'display:flex;';
+            cardDOMCopy.style = 'display:none;'
+            buttonBack.style.display = 'none'; //to revert the behavior of the button to the original state
+        })
+
+        //same events single-chosen card
+        cardDOMCopy.addEventListener('mouseenter', e => { //added card flip on mouseenter
+            pokemonImgBackDOM.style.display = 'inline';
+            pokemonImgBackDOM.style.alignSelf = 'center';
+            pokemonImgFrontDOM.style.display = 'none';
+
+        })
+        cardDOMCopy.addEventListener('mouseleave', e => { //added card flip on mouseleave
+            pokemonImgBackDOM.style.display = 'none';
+            pokemonImgFrontDOM.style.alignSelf = 'center';
+            pokemonImgFrontDOM.style.display = 'inline';
+        })
+    })
+
+
 
     pokemonContainerDOM.addEventListener('mouseenter', e => { //added card flip on mouseenter
         pokemonImgBackDOM.style.display = 'inline';
+        pokemonImgBackDOM.style.alignSelf = 'center';
         pokemonImgFrontDOM.style.display = 'none';
+
     })
     pokemonContainerDOM.addEventListener('mouseleave', e => { //added card flip on mouseleave
         pokemonImgBackDOM.style.display = 'none';
+        pokemonImgFrontDOM.style.alignSelf = 'center';
         pokemonImgFrontDOM.style.display = 'inline';
     })
+
 
     const pokemonImgContainerDOM = document.createElement('div');
 
     const pokemonImgFrontDOM = document.createElement('img');
-    pokemonImgFrontDOM.src = pokemon.sprites.front_default;
+    pokemonImgFrontDOM.src = pokemon.sprites.versions["generation-v"]["black-white"].animated.front_default;
     const pokemonImgBackDOM = document.createElement('img');
-    pokemonImgBackDOM.src = pokemon.sprites.back_default;
+    pokemonImgBackDOM.src = pokemon.sprites.versions["generation-v"]["black-white"].animated.back_default;
     pokemonImgContainerDOM.classList.add('pokemon-image__container');
     pokemonImgFrontDOM.classList.add('pokemon-front-image');
     pokemonImgBackDOM.classList.add('pokemon-back-image');
@@ -61,10 +102,9 @@ function undrawPokemonList() {
     pokedexContainer.innerHTML = '';
 }
 
-async function retrievePokemonList(limit=151, offset=0) {
+async function retrievePokemonList(limit = 151, offset = 0) {
     const r = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`);
     const pokemonList = await r.json();
-
     return pokemonList.results;     //when the promise is fulfilled the function returs
     //an array of objects(name & url).
 }
@@ -97,7 +137,6 @@ async function drawPokemonListFromAPI() {
     originalPokemonList.sort((a, b) => a.id - b.id);
     originalPokemonList.forEach(p => drawPokemon(p));
 }
-
 drawPokemonListFromAPI();
 
 const searchInputDOM = document.querySelector('.search__input');
@@ -110,15 +149,11 @@ searchInputDOM.addEventListener('keyup', e => {
 
 //Test part
 
-// const limitOffsetDOM = document.querySelector('.form__container');
-// limitOffsetDOM.addEventListener('submit', e => {
-//     e.preventDefault();
-//     const limit = e.target.limit.value;
-//     const offset = e.target.offset.value;
-//     undrawPokemonList();
-//     retrievePokemonList(limit, offset);
-//     drawPokemonListFromAPI();
-    
-// })
-
+limitOffsetDOM.addEventListener('submit', e => {
+    e.preventDefault();
+    limit = e.target.limit.value;
+    offset = e.target.offset.value;
+    pokedexContainer.innerHTML = '';
+    return retrievePokemonList(limit, offset);
+})
 
