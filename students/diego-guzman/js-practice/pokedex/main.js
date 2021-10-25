@@ -117,9 +117,9 @@ async function retrievePokemon(url) {
     //when fulfilled returns a promise wiht an object with the pokemon info
 }
 
-async function retrievePokemonListFromAPI() {
+async function retrievePokemonListFromAPI(limit, offset) {
     //saves in the global array a list of the pokemons 
-    const pokemonList = await retrievePokemonList();
+    const pokemonList = await retrievePokemonList(limit,offset);
     //a list of pokemon when the asynchrony of retrievePokemonList() ends.
     const pokemonPromiseList = pokemonList.map(async p => {
         //searches the info from the pokemon its iterating. Returns a promise
@@ -131,8 +131,8 @@ async function retrievePokemonListFromAPI() {
     await Promise.allSettled(pokemonPromiseList)
 }
 
-async function drawPokemonListFromAPI() {
-    await retrievePokemonListFromAPI();
+async function drawPokemonListFromAPI(limit, offset) {
+    await retrievePokemonListFromAPI(limit, offset);
     //global array is available now
     originalPokemonList.sort((a, b) => a.id - b.id);
     originalPokemonList.forEach(p => drawPokemon(p));
@@ -154,6 +154,7 @@ limitOffsetDOM.addEventListener('submit', e => {
     limit = e.target.limit.value;
     offset = e.target.offset.value;
     pokedexContainer.innerHTML = '';
-    return retrievePokemonList(limit, offset);
+    originalPokemonList = [];
+    drawPokemonListFromAPI(limit, offset);
 })
 
